@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+      python: 3.7
+    commands:
+      # Install SAM Tools
+      - pip install aws-sam-cli
+      - cd hello-world
+      - npm ci
+  pre_build:
+    commands:
+      - npm test
+      - sam validate --template template.yaml
