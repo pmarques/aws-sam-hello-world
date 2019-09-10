@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+      python: 3.7
+    commands:
+      # Install SAM Tools
+      - pip install aws-sam-cli
+      - cd hello-world
+      - npm ci
+  pre_build:
+    commands:
+      - npm test
+      - npm prune --production
+      - cd ${CODEBUILD_SRC_DIR}
+      - sam validate --template template.yaml
+  build:
+    commands:
+      - cd ${CODEBUILD_SRC_DIR}
+      - sam build
+      # - cd .aws-sam/build/
+      - sam package --s3-bucket ${SAR_ARTIFACT_BUCKET} --output-template-file packaged-template.yml
+  post_build:
+    commands:
+      - cd ${CODEBUILD_SRC_DIR}
+      - sam publish --template packaged-template.yml
+artifacts:
+  files:
+    - "buildspec*.yml"
