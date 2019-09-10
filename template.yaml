@@ -4,6 +4,13 @@ Description: >
   sam-app
 
   Sample SAM Template for sam-app
+
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: HelloWorld
+    Author: Patrick F. Marques
+    Description: Hello World AWS Serverless Application
+    SemanticVersion: 0.1.0
   
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
